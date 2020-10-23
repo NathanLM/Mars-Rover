@@ -7,3 +7,6 @@ class Planet:
         self.width = width
         self.height = height
         self.obstacles = set()
+
+    def landARover(self):
+        return Rover(10, 10, 'E', self)

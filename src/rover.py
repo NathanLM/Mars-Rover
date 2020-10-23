@@ -1,6 +1,3 @@
-from .planet import Planet
-
-
 class Rover:
 
     global commands
@@ -13,17 +10,27 @@ class Rover:
         self.planet = planet
 
     # Movement functions
+    def move(self, keys):
+        for key in keys:
+            self.executeMoveCommand(commands[key])
+
+    def executeMoveCommand(self, command):
+        vector = vectors[self.orientation]
+        command(self, vector)
+
     def moveForward(self, vector):
-        pass
+        self.x += vector[0]
+        self.y += vector[1]
 
     def moveBackward(self, vector):
-        pass
+        self.x -= vector[0]
+        self.y -= vector[1]
 
     def moveLeft(self, vector):
-        pass
+        self.orientation = vector[2]
 
     def moveRight(self, vector):
-        pass
+        self.orientation = vector[3]
 
     # Rover commands
     commands = {
