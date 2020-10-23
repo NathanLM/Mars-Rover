@@ -12,6 +12,12 @@ class TestRover(unittest.TestCase):
 
     # Test Rover movements
 
+    def test_rover_move_command_list(self):
+        rover.move(list("f" "f" "r" "f" "f" "l" "f" "f" "l"))
+        self.assertEqual(14, rover.x)
+        self.assertEqual(8, rover.y)
+        self.assertEqual('N', rover.orientation)
+
     def test_rover_move_forward(self):
         rover.move(list("f"))
         self.assertEqual(11, rover.x)
