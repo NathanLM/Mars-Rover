@@ -32,13 +32,17 @@ class Rover:
     def moveRight(self, vector):
         self.orientation = vector[3]
 
-    # Rover commands
+    def turnToFaceDirection(self, desiredOrientation):
+        while self.orientation != desiredOrientation:
+            self.moveLeft(vectors[self.orientation])
+
     commands = {
         'f': moveForward,
         'b': moveBackward,
         'l': moveLeft,
         'r': moveRight
     }
+    # Rover commands
 
     # Movement vectors
     # Current orientation: [Distance x, Distance Y, Left, Right]
