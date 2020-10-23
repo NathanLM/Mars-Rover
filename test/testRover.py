@@ -27,9 +27,9 @@ class TestRover(unittest.TestCase):
 
     # Rover movements
     def test_rover_move_command_list(self):
-        self.test_rover_movement('E', list("f" "f" "r" "f" "f" "l" "f" "f" "l"), 14, 8, 'N')
+        self.assert_rover_movement('E', list("f" "f" "r" "f" "f" "l" "f" "f" "l"), 14, 8, 'N')
 
-    def test_rover_movement(self, orientation, commands, finalX, finalY, finalOrientation):
+    def assert_rover_movement(self, orientation, commands, finalX, finalY, finalOrientation):
         rover.turnToFaceDirection(orientation)
         rover.move(commands)
         self.assertEqual(finalX, rover.x)
@@ -38,52 +38,52 @@ class TestRover(unittest.TestCase):
 
     # Movement while facing Est
     def test_rover_move_forward_est(self):
-        self.test_rover_movement('E', list("f"), 11, 10, 'E')
+        self.assert_rover_movement('E', list("f"), 11, 10, 'E')
 
     def test_rover_move_backward_est(self):
-        self.test_rover_movement('E', list("b"), 9, 10, 'E')
+        self.assert_rover_movement('E', list("b"), 9, 10, 'E')
 
     def test_rover_move_left_est(self):
-        self.test_rover_movement('E', list("l"), 10, 10, 'N')
+        self.assert_rover_movement('E', list("l"), 10, 10, 'N')
 
     def test_rover_move_right_est(self):
-        self.test_rover_movement('E', list("r"), 10, 10, 'S')
+        self.assert_rover_movement('E', list("r"), 10, 10, 'S')
 
     # Movement while facing West
     def test_rover_move_forward_west(self):
-        self.test_rover_movement('W', list("f"), 9, 10, 'W')
+        self.assert_rover_movement('W', list("f"), 9, 10, 'W')
 
     def test_rover_move_backward_west(self):
-        self.test_rover_movement('W', list("b"), 11, 10, 'W')
+        self.assert_rover_movement('W', list("b"), 11, 10, 'W')
 
     def test_rover_move_left_west(self):
-        self.test_rover_movement('W', list("l"), 10, 10, 'S')
+        self.assert_rover_movement('W', list("l"), 10, 10, 'S')
 
     def test_rover_move_right_west(self):
-        self.test_rover_movement('W', list("r"), 10, 10, 'N')
+        self.assert_rover_movement('W', list("r"), 10, 10, 'N')
 
     # Movement while facing South
     def test_rover_move_forward_south(self):
-        self.test_rover_movement('S', list("f"), 10, 9, 'S')
+        self.assert_rover_movement('S', list("f"), 10, 9, 'S')
 
     def test_rover_move_backward_south(self):
-        self.test_rover_movement('S', list("b"), 10, 11, 'S')
+        self.assert_rover_movement('S', list("b"), 10, 11, 'S')
 
     def test_rover_move_left_south(self):
-        self.test_rover_movement('S', list("l"), 10, 10, 'E')
+        self.assert_rover_movement('S', list("l"), 10, 10, 'E')
 
     def test_rover_move_right_south(self):
-        self.test_rover_movement('S', list("r"), 10, 10, 'W')
+        self.assert_rover_movement('S', list("r"), 10, 10, 'W')
 
     # Movement while facing North
     def test_rover_move_forward_north(self):
-        self.test_rover_movement('N', list("f"), 10, 11, 'N')
+        self.assert_rover_movement('N', list("f"), 10, 11, 'N')
 
     def test_rover_move_backward_north(self):
-        self.test_rover_movement('N', list("b"), 10, 9, 'N')
+        self.assert_rover_movement('N', list("b"), 10, 9, 'N')
 
     def test_rover_move_left_north(self):
-        self.test_rover_movement('N', list("l"), 10, 10, 'W')
+        self.assert_rover_movement('N', list("l"), 10, 10, 'W')
 
     def test_rover_move_right_north(self):
-        self.test_rover_movement('N', list("r"), 10, 10, 'E')
+        self.assert_rover_movement('N', list("r"), 10, 10, 'E')
