@@ -6,7 +6,7 @@ class TestRover(unittest.TestCase):
 
     def setUp(self):
         global rover
-        rover = Planet(20, 20).landARover(10, 10)
+        rover = Planet(20, 20).landARover(10, 10, 'E')
 
     # Rover rotation
     def test_rover_turn_to_face_north(self):
@@ -30,7 +30,7 @@ class TestRoverCommandList(unittest.TestCase):
 
     def setUp(self):
         global rover
-        rover = Planet(20, 20).landARover(10, 10)
+        rover = Planet(20, 20).landARover(10, 10, 'E')
 
     # Rover command list
     def test_rover_move_command_list(self):
@@ -41,7 +41,7 @@ class TestRoverMovements(unittest.TestCase):
 
     def setUp(self):
         global rover
-        rover = Planet(20, 20).landARover(10, 10)
+        rover = Planet(20, 20).landARover(10, 10, 'E')
 
     def assert_rover_movement(self, orientation, commands, finalX, finalY, finalOrientation):
         rover.turnToFaceDirection(orientation)
@@ -106,16 +106,55 @@ class TestRoverMovements(unittest.TestCase):
 class TestRoverWrapping(unittest.TestCase):
 
     def setUp(self):
-        global rover
-        rover = Planet(3, 3).landARover(2, 2)
+        global planet
+        planet = Planet(3, 3)
 
-    # Rover wrapping at planet edges
-    def test_rover_wrapping_north(self):
-        TestRoverMovements().assert_rover_movement('N', list("f" "f"), 1, 2, 'N')
+    # Test Rover warp when moving forward
+    def test_rover_wrap_north_move_forward(self):
+        warpRover = planet.landARover(0, 2, 'N')
+        warpRover.move(list("f"))
+        self.assertEqual(0, warpRover.y)
+
+    def test_rover_wrap_east_move_forward(self):
+        warpRover = planet.landARover(2, 0, 'E')
+        warpRover.move(list("f"))
+        self.assertEqual(0, warpRover.x)
+
+    def test_rover_wrap_west_move_forward(self):
+        warpRover = planet.landARover(0, 0, 'W')
+        warpRover.move(list("f"))
+        self.assertEqual(2, warpRover.x)
+
+    def test_rover_wrap_south_move_forward(self):
+        warpRover = planet.landARover(0, 0, 'S')
+        warpRover.move(list("f"))
+        self.assertEqual(2, warpRover.y)
+
+    # Test Rover warp when moving backward
+    def test_rover_wrap_north_move_backward(self):
+        warpRover = planet.landARover(0, 0, 'N')
+        warpRover.move(list("b"))
+        self.assertEqual(2, warpRover.y)
+
+    def test_rover_wrap_est_move_backward(self):
+        warpRover = planet.landARover(0, 0, 'E')
+        warpRover.move(list("b"))
+        self.assertEqual(2, warpRover.x)
+
+    def test_rover_wrap_west_move_backward(self):
+        warpRover = planet.landARover(2, 0, 'W')
+        warpRover.move(list("b"))
+        self.assertEqual(0, warpRover.x)
+
+    def test_rover_wrap_southth_move_backward(self):
+        warpRover = planet.landARover(0, 0, 'S')
+        warpRover.move(list("b"))
+        self.assertEqual(0, warpRover.y)
+
 
 
 class TestRoverObscacles(unittest.TestCase):
 
     def setUp(self):
         global rover
-        rover = Planet(20, 20).landARover(10, 10)
+        rover = Planet(20, 20).landARover(10, 10, 'E')

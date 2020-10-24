@@ -8,5 +8,13 @@ class Planet:
         self.height = height
         self.obstacles = set()
 
-    def landARover(self, x, y):
-        return Rover(x, y, 'E', self)
+    def landARover(self, x, y, orientation):
+        return Rover(x, y, orientation, self)
+
+
+    def wrap_x(self, x):
+        pass
+
+    def wrap_y(self, y):
+        pass
+
