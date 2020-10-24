@@ -11,10 +11,9 @@ class Planet:
     def landARover(self, x, y, orientation):
         return Rover(x, y, orientation, self)
 
-
     def wrap_x(self, x):
-        pass
+        return x % self.width
 
     def wrap_y(self, y):
-        pass
+        return y % self.height
 

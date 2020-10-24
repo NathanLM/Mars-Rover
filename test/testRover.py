@@ -147,7 +147,7 @@ class TestRoverWrapping(unittest.TestCase):
         self.assertEqual(0, warpRover.x)
 
     def test_rover_wrap_southth_move_backward(self):
-        warpRover = planet.landARover(0, 0, 'S')
+        warpRover = planet.landARover(0, 2, 'S')
         warpRover.move(list("b"))
         self.assertEqual(0, warpRover.y)
 

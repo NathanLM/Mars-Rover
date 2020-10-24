@@ -19,12 +19,12 @@ class Rover:
         command(self, vector)
 
     def moveForward(self, vector):
-        self.x += vector[0]
-        self.y += vector[1]
+        self.x = self.planet.wrap_x(self.x + vector[0])
+        self.y = self.planet.wrap_y(self.y + vector[1])
 
     def moveBackward(self, vector):
-        self.x -= vector[0]
-        self.y -= vector[1]
+        self.x = self.planet.wrap_x(self.x - vector[0])
+        self.y = self.planet.wrap_y(self.y - vector[1])
 
     def moveLeft(self, vector):
         self.orientation = vector[2]
