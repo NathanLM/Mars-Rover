@@ -8,5 +8,5 @@ class Planet:
         self.height = height
         self.obstacles = set()
 
-    def landARover(self):
-        return Rover(10, 10, 'E', self)
+    def landARover(self, x, y):
+        return Rover(x, y, 'E', self)

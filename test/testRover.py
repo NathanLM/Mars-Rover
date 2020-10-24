@@ -6,7 +6,7 @@ class TestRover(unittest.TestCase):
 
     def setUp(self):
         global rover
-        rover = Planet(20, 20).landARover()
+        rover = Planet(20, 20).landARover(10, 10)
 
     # Rover rotation
     def test_rover_turn_to_face_north(self):
@@ -25,9 +25,23 @@ class TestRover(unittest.TestCase):
         rover.turnToFaceDirection(orientation)
         self.assertEqual(orientation, rover.orientation)
 
-    # Rover movements
+
+class TestRoverCommandList(unittest.TestCase):
+
+    def setUp(self):
+        global rover
+        rover = Planet(20, 20).landARover(10, 10)
+
+    # Rover command list
     def test_rover_move_command_list(self):
-        self.assert_rover_movement('E', list("f" "f" "r" "f" "f" "l" "f" "f" "l"), 14, 8, 'N')
+        TestRoverMovements().assert_rover_movement('E', list("f" "f" "r" "f" "f" "l" "f" "f" "l"), 14, 8, 'N')
+
+
+class TestRoverMovements(unittest.TestCase):
+
+    def setUp(self):
+        global rover
+        rover = Planet(20, 20).landARover(10, 10)
 
     def assert_rover_movement(self, orientation, commands, finalX, finalY, finalOrientation):
         rover.turnToFaceDirection(orientation)
@@ -87,3 +101,21 @@ class TestRover(unittest.TestCase):
 
     def test_rover_move_right_north(self):
         self.assert_rover_movement('N', list("r"), 10, 10, 'E')
+
+
+class TestRoverWrapping(unittest.TestCase):
+
+    def setUp(self):
+        global rover
+        rover = Planet(3, 3).landARover(2, 2)
+
+    # Rover wrapping at planet edges
+    def test_rover_wrapping_north(self):
+        TestRoverMovements().assert_rover_movement('N', list("f" "f"), 1, 2, 'N')
+
+
+class TestRoverObscacles(unittest.TestCase):
+
+    def setUp(self):
+        global rover
+        rover = Planet(20, 20).landARover(10, 10)
