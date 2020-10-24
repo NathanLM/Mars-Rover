@@ -17,6 +17,11 @@ class Planet:
     def wrap_y(self, y):
         return y % self.height
 
-    def setObstacle(self, x, y):
-        pass
+    def getObstacleObject(self, x, y):
+        return "{:d}:{:d}".format(x, y)
 
+    def setObstacle(self, x, y):
+        self.obstacles.add(self.getObstacleObject(x, y))
+
+    def isObstacleAt(self, x, y):
+        return self.getObstacleObject(x, y) in self.obstacles

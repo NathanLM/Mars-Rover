@@ -14,17 +14,25 @@ class Rover:
         for key in keys:
             self.executeMoveCommand(commands[key])
 
+    def moveIfNoObstacleIsEncountered(self, x, y):
+        if self.planet.isObstacleAt(x, y):
+            raise ValueError("Obstacle encountered in {:d}:{:d}".format(x, y))
+        self.x = x
+        self.y = y
+
     def executeMoveCommand(self, command):
         vector = vectors[self.orientation]
         command(self, vector)
 
     def moveForward(self, vector):
-        self.x = self.planet.wrap_x(self.x + vector[0])
-        self.y = self.planet.wrap_y(self.y + vector[1])
+        x = self.planet.wrap_x(self.x + vector[0])
+        y = self.planet.wrap_y(self.y + vector[1])
+        self.moveIfNoObstacleIsEncountered(x, y)
 
     def moveBackward(self, vector):
-        self.x = self.planet.wrap_x(self.x - vector[0])
-        self.y = self.planet.wrap_y(self.y - vector[1])
+        x = self.planet.wrap_x(self.x - vector[0])
+        y = self.planet.wrap_y(self.y - vector[1])
+        self.moveIfNoObstacleIsEncountered(x, y)
 
     def moveLeft(self, vector):
         self.orientation = vector[2]

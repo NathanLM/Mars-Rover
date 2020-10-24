@@ -175,7 +175,7 @@ class TestRoverObscacles(unittest.TestCase):
         self.assert_obstacle_is_encountered(9, 18, 'E', "b")
 
     def test_obstacle_moving_backward_north(self):
-        self.assert_obstacle_is_encountered(8, 19, 'E', "b")
+        self.assert_obstacle_is_encountered(8, 19, 'N', "b")
 
     def test_obstacle_moving_backward_west(self):
         self.assert_obstacle_is_encountered(7, 18, 'W', "b")
@@ -188,5 +188,5 @@ class TestRoverObscacles(unittest.TestCase):
         obstacleRover = planet.landARover(6, 17, 'E')
         with self.assertRaisesRegexp(ValueError, "Obstacle encountered in 8:18"):
             obstacleRover.move(list("fflf"))
-        self.assertEqual(8, rover.x)
-        self.assertEqual(17, rover.y)
+        self.assertEqual(8, obstacleRover.x)
+        self.assertEqual(17, obstacleRover.y)
