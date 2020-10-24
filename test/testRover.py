@@ -36,6 +36,9 @@ class TestRoverCommandList(unittest.TestCase):
     def test_rover_move_command_list(self):
         TestRoverMovements().assert_rover_movement('E', list("f" "f" "r" "f" "f" "l" "f" "f" "l"), 14, 8, 'N')
 
+    def test_rover_move_command_list_one_string(self):
+        TestRoverMovements().assert_rover_movement('E', list("ffrfflffl"), 14, 8, 'N')
+
 
 class TestRoverMovements(unittest.TestCase):
 
@@ -109,52 +112,81 @@ class TestRoverWrapping(unittest.TestCase):
         global planet
         planet = Planet(3, 3)
 
+    def assert_rover_moves_through_wrapping(self, x, y, orientation, keys, finalX, finalY):
+        warpRover = planet.landARover(x, y, orientation)
+        warpRover.move(list(keys))
+        self.assertEqual(finalX, warpRover.x)
+        self.assertEqual(finalY, warpRover.y)
+
     # Test Rover warp when moving forward
     def test_rover_wrap_north_move_forward(self):
-        warpRover = planet.landARover(0, 2, 'N')
-        warpRover.move(list("f"))
-        self.assertEqual(0, warpRover.y)
+        self.assert_rover_moves_through_wrapping(0, 2, 'N', "f", 0, 0)
 
     def test_rover_wrap_east_move_forward(self):
-        warpRover = planet.landARover(2, 0, 'E')
-        warpRover.move(list("f"))
-        self.assertEqual(0, warpRover.x)
+        self.assert_rover_moves_through_wrapping(2, 0, 'E', "f", 0, 0)
 
     def test_rover_wrap_west_move_forward(self):
-        warpRover = planet.landARover(0, 0, 'W')
-        warpRover.move(list("f"))
-        self.assertEqual(2, warpRover.x)
+        self.assert_rover_moves_through_wrapping(0, 0, 'W', "f", 2, 0)
 
     def test_rover_wrap_south_move_forward(self):
-        warpRover = planet.landARover(0, 0, 'S')
-        warpRover.move(list("f"))
-        self.assertEqual(2, warpRover.y)
+        self.assert_rover_moves_through_wrapping(0, 0, 'S', "f", 0, 2)
 
     # Test Rover warp when moving backward
     def test_rover_wrap_north_move_backward(self):
-        warpRover = planet.landARover(0, 0, 'N')
-        warpRover.move(list("b"))
-        self.assertEqual(2, warpRover.y)
+        self.assert_rover_moves_through_wrapping(0, 0, 'N', "b", 0, 2)
 
     def test_rover_wrap_est_move_backward(self):
-        warpRover = planet.landARover(0, 0, 'E')
-        warpRover.move(list("b"))
-        self.assertEqual(2, warpRover.x)
+        self.assert_rover_moves_through_wrapping(0, 0, 'E', "b", 2, 0)
 
     def test_rover_wrap_west_move_backward(self):
-        warpRover = planet.landARover(2, 0, 'W')
-        warpRover.move(list("b"))
-        self.assertEqual(0, warpRover.x)
+        self.assert_rover_moves_through_wrapping(2, 0, 'W', "b", 0, 0)
 
     def test_rover_wrap_southth_move_backward(self):
-        warpRover = planet.landARover(0, 2, 'S')
-        warpRover.move(list("b"))
-        self.assertEqual(0, warpRover.y)
-
+        self.assert_rover_moves_through_wrapping(0, 2, 'S', "b", 0, 0)
 
 
 class TestRoverObscacles(unittest.TestCase):
 
     def setUp(self):
-        global rover
-        rover = Planet(20, 20).landARover(10, 10, 'E')
+        global planet
+        planet = Planet(20, 20)
+        planet.setObstacle(8, 18)
+
+    def assert_obstacle_is_encountered(self, x, y, orientation, key):
+        obstacleRover = planet.landARover(x, y, orientation)
+        with self.assertRaisesRegexp(ValueError, "Obstacle encountered in 8:18"):
+            obstacleRover.move(list(key))
+
+    # Encountering obstacles while moving forward
+    def test_obstacle_moving_forward_east(self):
+        self.assert_obstacle_is_encountered(7, 18, 'E', "f")
+
+    def test_obstacle_moving_forward_north(self):
+        self.assert_obstacle_is_encountered(8, 17, 'N', "f")
+
+    def test_obstacle_moving_forward_west(self):
+        self.assert_obstacle_is_encountered(9, 18, 'W', "f")
+
+    def test_obstacle_moving_forward_south(self):
+        self.assert_obstacle_is_encountered(8, 19, 'S', "f")
+
+    # Encountering obstacles while moving forward
+    def test_obstacle_moving_backward_east(self):
+        self.assert_obstacle_is_encountered(9, 18, 'E', "b")
+
+    def test_obstacle_moving_backward_north(self):
+        self.assert_obstacle_is_encountered(8, 19, 'E', "b")
+
+    def test_obstacle_moving_backward_west(self):
+        self.assert_obstacle_is_encountered(7, 18, 'W', "b")
+
+    def test_obstacle_moving_backward_south(self):
+        self.assert_obstacle_is_encountered(8, 17, 'S', "b")
+
+    # Stopping before the obstacle
+    def test_path_stops_before(self):
+        obstacleRover = planet.landARover(6, 17, 'E')
+        with self.assertRaisesRegexp(ValueError, "Obstacle encountered in 8:18"):
+            obstacleRover.move(list("fflf"))
+        self.assertEqual(8, rover.x)
+        self.assertEqual(17, rover.y)

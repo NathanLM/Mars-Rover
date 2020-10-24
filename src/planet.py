@@ -17,3 +17,6 @@ class Planet:
     def wrap_y(self, y):
         return y % self.height
 
+    def setObstacle(self, x, y):
+        pass
+
