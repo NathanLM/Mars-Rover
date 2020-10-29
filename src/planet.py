@@ -11,17 +11,14 @@ class Planet:
     def landARover(self, x, y, orientation):
         return Rover(x, y, orientation, self)
 
-    def wrap_x(self, x):
+    def wrapX(self, x):
         return x % self.width
 
-    def wrap_y(self, y):
+    def wrapY(self, y):
         return y % self.height
 
-    def getObstacleObject(self, x, y):
-        return "{:d}:{:d}".format(x, y)
-
     def setObstacle(self, x, y):
-        self.obstacles.add(self.getObstacleObject(x, y))
+        self.obstacles.add((x, y))
 
     def isObstacleAt(self, x, y):
-        return self.getObstacleObject(x, y) in self.obstacles
+        return (x, y) in self.obstacles
